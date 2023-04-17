@@ -8,7 +8,7 @@ var init = function (window) {
         canvas = app.canvas, 
         view = app.view,
         fps = draw.fps('#000');
-        
+
     
     window.opspark.makeGame = function() {
         
@@ -19,14 +19,25 @@ var init = function (window) {
         ///////////////// PROGRAM SETUP ////////////////////////////
         ////////////////////////////////////////////////////////////
         
-        // TODO 1 : Declare and initialize our variables
+        // TODO 1 : Declare and initialize our variables 
+        var circle; 
+        var circles = []; 
 
 
-        // TODO 2 : Create a function that draws a circle 
+        // TODO 2 : Create a function that draws a circle  
+        function drawCircle() { 
+        circle = draw.randomCircleInArea(canvas, true, true, "#999", 2);
+        physikz.addRandomVelocity(circle, canvas,10,10);
+        view.addChild(circle);
+        circles.push(circle);
+        }
         
 
         // TODO 3 / 7 : Call the drawCircle() function 
-
+            var loopsCompleted = 0;
+            for(var loopsCompleted = 0; loopsCompleted < 100; loopsCompleted++) { 
+                drawCircle(); 
+            }
 
         ////////////////////////////////////////////////////////////
         ///////////////// PROGRAM LOGIC ////////////////////////////
@@ -39,13 +50,17 @@ var init = function (window) {
         */
         function update() {
             // TODO 4 : Update the circle's position //
-
             
-            // TODO 5 / 10 : Call game.checkCirclePosition() on your circles.
-           
+            for (var i = 0; i < circles.length; i++) {
+                physikz.updatePosition(circles[i]); 
+                game.checkCirclePosition(circles[i]);
+              }  
+            
+            // TODO 5 / 10 : Call game.checkCirclePosition() on your circles. 
+            // I did this because instead of typing it 100 times it was easier to use a loop and iteration
 
             // TODO 9 : Iterate over the array
-           
+            
             
         }
     
@@ -62,7 +77,15 @@ var init = function (window) {
             }
             
             // TODO 6 : YOUR CODE STARTS HERE //////////////////////
-            
+            if (circle.y > canvas.height) { 
+                circle.y = 0;
+            } 
+            if (circle.x < 0) { 
+                circle.x = canvas.width;
+            } 
+            if (circle.y < 0 ){ 
+                circle.y = canvas.height;
+            }
 
 
             // YOUR TODO 6 CODE ENDS HERE //////////////////////////
